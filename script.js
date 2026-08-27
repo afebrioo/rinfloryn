@@ -53,6 +53,12 @@ function initIntroSlides() {
 
     // Single delegated click on wrapper
     wrapper.addEventListener('click', (e) => {
+        // Direct trigger for music on any slide interaction
+        const bgAudio = document.getElementById('bgMusic');
+        if (bgAudio && bgAudio.paused) {
+            bgAudio.play().catch(() => {});
+        }
+
         // Dot click
         const dot = e.target.closest('.sdot');
         if (dot) {
@@ -78,6 +84,11 @@ function initIntroSlides() {
     function enterHero() {
         wrapper.classList.add('exiting');
         window.dispatchEvent(new Event('introFinished'));
+        
+        const bgAudio = document.getElementById('bgMusic');
+        if (bgAudio && bgAudio.paused) {
+            bgAudio.play().catch(() => {});
+        }
         
         // Trigger staggered hero entrance animation
         const hero = document.getElementById('hero');
