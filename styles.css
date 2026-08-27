@@ -877,46 +877,43 @@ body {
 
 .s-title {
     font-family: var(--font-title);
-    font-size: 3rem;
+    font-size: clamp(2.2rem, 5.5vw, 3.2rem);
     font-weight: 800;
     color: var(--text);
-    line-height: 1.15;
-    margin-bottom: 8px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    padding: 0 12px;
+    word-break: break-word;
 }
 
 .s-sub {
-    font-size: 1.05rem;
+    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
     color: var(--muted);
     line-height: 1.65;
     max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px;
+    word-break: break-word;
 }
 
-/* Organic "cloud blob" wrapper — asymmetric, not a box */
+/* Clean, elegant rounded card wrapper — ample padding, no clipping */
 .cloud-blob {
-    background: rgba(255,255,255,.82);
-    backdrop-filter: blur(22px);
-    /* Deliberately different radii on each corner for organic feel */
-    border-radius: 58% 42% 55% 45% / 45% 58% 42% 55%;
-    padding: 52px 48px 48px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(24px);
+    border-radius: 36px;
+    padding: clamp(36px, 5vw, 52px) clamp(22px, 5vw, 48px) clamp(44px, 6vw, 60px);
     box-shadow:
-        0 25px 60px rgba(255,200,221,.28),
-        0 8px  20px rgba(205,180,219,.2),
-        inset 0 0 40px rgba(255,255,255,.7);
-    transition: border-radius 1.5s ease;
-    /* Ensure cloud-blob and all its children (buttons, inputs) are clickable above canvas */
+        0 20px 50px rgba(255, 200, 221, 0.32),
+        0 8px 24px rgba(205, 180, 219, 0.24),
+        inset 0 0 40px rgba(255, 255, 255, 0.85);
+    border: 1.5px solid rgba(255, 255, 255, 0.95);
     position: relative;
     z-index: 5;
-}
-/* Slowly morph the cloud shape */
-.cloud-blob:nth-child(odd)  { animation: morphCard 18s ease-in-out infinite alternate; }
-.cloud-blob:nth-child(even) { animation: morphCard 22s ease-in-out infinite alternate-reverse; }
-
-@keyframes morphCard {
-    0%   { border-radius: 58% 42% 55% 45% / 45% 58% 42% 55%; }
-    25%  { border-radius: 42% 58% 45% 55% / 55% 45% 58% 42%; }
-    50%  { border-radius: 50% 50% 60% 40% / 60% 40% 50% 50%; }
-    75%  { border-radius: 45% 55% 40% 60% / 40% 60% 55% 45%; }
-    100% { border-radius: 55% 45% 52% 48% / 48% 52% 45% 55%; }
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* =========================================================
@@ -1015,13 +1012,20 @@ body {
 }
 
 .pw-feedback {
-    margin-top: 14px;
-    font-size: 1rem;
+    margin-top: 18px;
+    font-size: 1.05rem;
     font-weight: 600;
-    min-height: 24px;
+    min-height: 28px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+    word-break: break-word;
 }
-.pw-feedback.err { color: #d64a4a; }
-.pw-feedback.ok  { color: #3a9e72; }
+.pw-feedback.err { color: #d64a4a; background: rgba(214,74,74,.1); }
+.pw-feedback.ok  { color: #2e8b57; background: rgba(46,139,87,.12); }
 
 .shake { animation: shake .45s ease-in-out; }
 @keyframes shake {
@@ -1277,22 +1281,40 @@ body {
     from { transform: translateX(-50%) scale(1)   rotate(-2deg); }
     to   { transform: translateX(-50%) scale(1.1) rotate(2deg);  }
 }
-.wish-txt { margin-top: 14px; font-size: 1rem; color: var(--muted); font-weight: 600; }
+.wish-txt {
+    margin-top: 24px;
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+    color: var(--muted);
+    font-weight: 600;
+    line-height: 1.6;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    word-break: break-word;
+}
 
 /* =========================================================
    QUIZ
    ========================================================= */
-.quiz-inner { margin-top: 24px; }
+.quiz-inner {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .quiz-bar { height: 9px; background: rgba(205,180,219,.3); border-radius: 10px; overflow: hidden; margin-bottom: 22px; }
 .quiz-prog { height: 100%; background: linear-gradient(to right, var(--pink2), var(--blue)); border-radius: 10px; transition: width .4s ease; }
 .q-num  { font-family: var(--font-hand); font-size: 1.2rem; font-weight: 700; color: var(--pink2); margin-bottom: 4px; }
-.q-text { font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 22px; }
-.q-opts { display: flex; flex-direction: column; gap: 11px; }
+.q-text { font-size: clamp(1.1rem, 3vw, 1.3rem); font-weight: 700; color: var(--text); margin-bottom: 22px; line-height: 1.4; word-break: break-word; }
+.q-opts { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
 .opt-btn {
     background: white;
     border: 2px solid rgba(205,180,219,.4);
-    padding: 13px 20px;
+    padding: 14px 22px;
     border-radius: 25px;
     font-family: var(--font-body);
     font-size: .98rem;
@@ -1301,6 +1323,9 @@ body {
     text-align: left;
     cursor: pointer;
     transition: all .3s ease;
+    width: 100%;
+    word-break: break-word;
+    box-sizing: border-box;
 }
 .opt-btn:hover { border-color: var(--pink2); background: #fff5f9; transform: translateX(5px); }
 .opt-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
