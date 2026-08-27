@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Floryn My Everything! 🌸✨</title>
+    <meta name="description" content="Website Ulang Tahun Spesial & Super Interaktif untuk Floryn.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Dancing+Script:wght@600;700;800&family=Fredoka:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/images/loopy.png">
+    <link rel="apple-touch-icon" href="assets/images/loopy.png">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+    <!-- ANIMATED BACKGROUND BLOBS -->
+    <div class="bg-blobs" aria-hidden="true">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="blob blob-5"></div>
+    </div>
+
+    <!-- Balloon canvas -->
+    <canvas id="balloonCanvas"></canvas>
+
+    <!-- ═══════════════════════════════════════════
+         INTRO SLIDES — tap/klik untuk lanjut
+    ═══════════════════════════════════════════ -->
+    <div id="introSlides">
+
+        <!-- Loopy corner decorations -->
+        <img src="assets/images/loopy2.jpg" alt="" class="intro-loopy intro-loopy-tl" aria-hidden="true">
+        <img src="assets/images/loopy3.jpg" alt="" class="intro-loopy intro-loopy-tr" aria-hidden="true">
+        <img src="assets/images/loopy1.jpg" alt="" class="intro-loopy intro-loopy-bl" aria-hidden="true">
+        <img src="assets/images/loopy4.jpg" alt="" class="intro-loopy intro-loopy-br" aria-hidden="true">
+
+        <!-- Each slide stacked, shown/hidden via active class -->
+
+        <!-- Slide 1 -->
+        <div class="intro-slide slide-1 is-active" id="slide-0">
+            <div class="slide-petals" aria-hidden="true">🌸✨🌷💫🌸✨🌷💫</div>
+            <div class="slide-content">
+                <div class="slide-emoji">💌</div>
+                <p class="slide-pre">Psst… ada sesuatu spesial</p>
+                <h2 class="slide-title">Buat Kamu Seorang</h2>
+                <p class="slide-hint">Yang paling cantik, yang paling aku sayangi…</p>
+            </div>
+            <div class="tap-hint">Tap di mana saja untuk lanjut ›</div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="intro-slide slide-2" id="slide-1">
+            <div class="slide-content">
+                <div class="slide-emoji">🎂</div>
+                <p class="slide-pre">Hari ini adalah hari</p>
+                <h2 class="slide-title">Hari yang Paling<br>Ditunggu-Tunggu!</h2>
+                <p class="slide-hint">Setiap detiknya terasa penuh keajaiban…</p>
+            </div>
+            <div class="tap-hint">Tap untuk lanjut ›</div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="intro-slide slide-3" id="slide-2">
+            <div class="slide-content">
+                <div class="slide-emoji">🌙</div>
+                <p class="slide-pre">Di setiap pagi yang kamu buka matamu,</p>
+                <h2 class="slide-title">Kamu Selalu Jadi<br>Alasan Terbaikku</h2>
+                <p class="slide-hint">…untuk tersenyum dan bersyukur 💕</p>
+            </div>
+            <div class="tap-hint">Tap untuk lanjut ›</div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="intro-slide slide-4" id="slide-3">
+            <div class="slide-content">
+                <div class="slide-emoji">⭐</div>
+                <p class="slide-pre">Dan sekarang…</p>
+                <h2 class="slide-title">Ada Kejutan Kecil<br>yang Sudah Menunggu!</h2>
+                <p class="slide-hint">Siap buka hadiah spesialnya? 🎁</p>
+            </div>
+            <div class="tap-hint">Tap untuk lanjut ›</div>
+        </div>
+
+        <!-- Slide 5 — Final (tombol masuk) -->
+        <div class="intro-slide slide-5 slide-final" id="slide-4">
+            <div class="slide-content">
+                <div class="slide-emoji big-emoji">🌸</div>
+                <h2 class="slide-title grand-title">Happy Birthday,</h2>
+                <div class="slide-name">Floryn!</div>
+                <p class="slide-hint">Semoga hari ini jadi yang paling indah ✨</p>
+                <button id="enterBtn" class="enter-btn">
+                    <span>Buka Kejutan 🎀</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dots indicator -->
+        <div class="slide-dots" id="slideDots" aria-label="Slide indicator">
+            <span class="sdot active" data-i="0"></span>
+            <span class="sdot" data-i="1"></span>
+            <span class="sdot" data-i="2"></span>
+            <span class="sdot" data-i="3"></span>
+            <span class="sdot" data-i="4"></span>
+        </div>
+
+    </div><!-- end introSlides -->
+
+    <!-- SIDE FLOATING POLAROID STREAMS -->
+    <aside class="side-stream left-stream" aria-label="Foto kenangan kiri">
+        <!-- Loopy float left -->
+        <div class="loopy-float-item lfi-1" aria-hidden="true">
+            <img src="assets/images/loopy2.jpg" alt="Loopy es krim">
+        </div>
+        <div class="polaroid-item" style="--r:-6deg; --delay:0s">
+            <div class="polaroid-photo">
+                <img src="assets/images/childhood1.jpg" alt="Floryn kecil manasik haji"
+                    onerror="this.parentElement.innerHTML=svgPlaceholder('Little Floryn','#ffc8dd','#c77dbd')">
+            </div>
+            <span class="polaroid-label">Little Floryn 🕌</span>
+        </div>
+        <div class="polaroid-item" style="--r:5deg; --delay:1.2s">
+            <div class="polaroid-photo">
+                <img src="assets/images/ikea_date.jpg" alt="Date seru di IKEA"
+                    onerror="this.parentElement.innerHTML=svgPlaceholder('IKEA Date','#a2d2ff','#5a9fd4')">
+            </div>
+            <span class="polaroid-label">IKEA Date 🛒</span>
+        </div>
+        <div class="loopy-float-item lfi-2" aria-hidden="true">
+            <img src="assets/images/loopy4.jpg" alt="Loopy jutek">
+        </div>
+        <div class="polaroid-item" style="--r:-3deg; --delay:2.4s">
+            <div class="polaroid-photo">
+                <img src="assets/images/solo1.jpg" alt="Floryn pegang buket bunga"
+                    onerror="this.parentElement.innerHTML=svgPlaceholder('Cutest Smile','#cdb4db','#9a6bb5')">
+            </div>
+            <span class="polaroid-label">Buket Cinta 🌸</span>
+        </div>
+    </aside>
+
+    <aside class="side-stream right-stream" aria-label="Foto kenangan kanan">
+        <!-- Loopy float right -->
+        <div class="loopy-float-item lfi-3" aria-hidden="true">
+            <img src="assets/images/loopy1.jpg" alt="Loopy senyum">
+        </div>
+        <div class="polaroid-item" style="--r:-4deg; --delay:0.8s">
+            <div class="polaroid-photo">
+                <img src="assets/images/couple2.jpg" alt="Foto bareng wisuda"
+                    onerror="this.parentElement.innerHTML=svgPlaceholder('Together','#e8d7f1','#9b5fc0')">
+            </div>
+            <span class="polaroid-label">Wisuda Bareng 🎓</span>
+        </div>
+        <div class="loopy-float-item lfi-4" aria-hidden="true">
+            <img src="assets/images/loopy3.jpg" alt="Loopy penyihir">
+        </div>
+        <div class="polaroid-item" style="--r:6deg; --delay:2.4s">
+            <div class="polaroid-photo">
+                <img src="assets/images/bakery3.jpg" alt="Foto di bakeri"
+                    onerror="this.parentElement.innerHTML=svgPlaceholder('Our Story','#ffc8dd','#d4607a')">
+            </div>
+            <span class="polaroid-label">Date Roti 🥐</span>
+        </div>
+        <div class="polaroid-item" style="--r:-5deg; --delay:3.8s">
+            <div class="polaroid-photo">
+                <img src="assets/images/couple1.jpg" alt="Foto bareng pose jempol"
+                    onerror="this.parentElement.innerHTML=svgPlaceholder('Bahagia','#a2d2ff','#3d7dc8')">
+            </div>
+            <span class="polaroid-label">Our first date!</span>
+        </div>
+    </aside>
+
+    <!-- FLOATING AUDIO PLAYER -->
+    <div class="audio-pill" id="audioPlayerWidget">
+        <div class="disc-spin" id="vinylRecord">💖</div>
+        <div class="audio-info">
+            <span class="audio-title">Cantik — Kahitna</span>
+            <span class="audio-sub" id="musicStatusText">🎵 Playing for you…</span>
+        </div>
+        <button class="audio-btn" id="audioToggleBtn"><span id="playIcon">⏸</span></button>
+        <audio id="bgMusic" loop preload="auto">
+            <source src="assets/audio/cantik-kahitna.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- STICKER TRAY -->
+    <div class="sticker-tray" id="stickerTray">
+        <span class="tray-hint">✨ Drag stiker:</span>
+        <span class="stk" draggable="true" data-e="🌸">🌸</span>
+        <span class="stk" draggable="true" data-e="💖">💖</span>
+        <span class="stk" draggable="true" data-e="👑">👑</span>
+        <span class="stk" draggable="true" data-e="🧸">🧸</span>
+        <span class="stk" draggable="true" data-e="✨">✨</span>
+        <span class="stk" draggable="true" data-e="🎀">🎀</span>
+        <span class="stk" draggable="true" data-e="🍦">🍦</span>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="app">
+
+        <!-- ═══ HERO ═══ -->
+        <section class="hero" id="hero">
+
+            <!-- Floating decorative ornaments -->
+            <div class="orn orn-1">🌸</div>
+            <div class="orn orn-2">💕</div>
+            <div class="orn orn-3">⭐</div>
+            <div class="orn orn-4">🌷</div>
+            <div class="orn orn-5">✨</div>
+            <div class="orn orn-6">🌺</div>
+            <div class="orn orn-7">💫</div>
+            <div class="orn orn-8">🎀</div>
+
+            <!-- Hero Photo Floryn -->
+            <div class="hero-photo-container">
+                <div class="hero-photo-frame">
+                    <img src="assets/images/hero.jpg" alt="Floryn Cantik" class="hero-photo"
+                        onerror="this.src='assets/images/solo1.jpg'">
+                    <div class="hero-photo-badge">👑 Birthday Queen</div>
+                </div>
+                <div class="hero-photo-shadow"></div>
+            </div>
+
+            <div class="hero-text-col">
+                <div class="hero-badge">🌸 Khusus Buat Floryn 🌸</div>
+                <h1 class="hero-h1">Happy 20th Birthday,</h1>
+                <div class="hero-name">Rianti Agustini, Floryn, Cantiknyaa ioo</div>
+                <p class="hero-sub">
+                    Selamat ulang tahun untuk orang yang paling manis,<br>
+                    paling cantik, dan paling aku sayangi di dunia ini. 💕
+                </p>
+                <div class="hero-hint">✨ Klik balon atau drag stiker imut di layar!</div>
+                <button class="scroll-btn" onclick="scrollToSection('password-gate')">
+                    <span>Buka Kejutan</span>
+                    <span class="scroll-heart">💖</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Wave divider -->
+        <div class="wave-divider wave-down" aria-hidden="true">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="rgba(255,200,221,0.15)" />
+            </svg>
+        </div>
+
+        <!-- ═══ PASSWORD GATE ═══ -->
+        <section class="section-wrap" id="password-gate">
+            <div class="cloud-blob">
+                <div class="lock-orb">🔐</div>
+                <h2 class="s-title">Secret Vault Floryn 💕</h2>
+                <p class="s-sub">Eits! Sebelum lanjut, kamu harus masukin <b>Password Rahasia Cinta</b> dulu ya! 😜</p>
+                <div class="clue-chip">💡 <b>Hint:</b> Tanggal berapa kita resmi jadian?</div>
+                <div class="pw-row">
+                    <input type="text" id="passwordInput" class="pw-input" placeholder="cth: 3 Juni 2026"
+                        autocomplete="off">
+                    <button id="unlockBtn" class="btn-primary">Buka 🔑</button>
+                </div>
+                <div id="passwordFeedback" class="pw-feedback"></div>
+            </div>
+        </section>
+
+        <!-- LOCKED CONTENT -->
+        <div id="lockedContent" class="hidden">
+
+            <!-- Wave divider -->
+            <div class="wave-divider wave-up" aria-hidden="true">
+                <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+                    <path d="M0,40 C360,0 1080,80 1440,40 L1440,0 L0,0 Z" fill="rgba(162,210,255,0.15)" />
+                </svg>
+            </div>
+
+            <!-- ═══ FOTO BARENG ═══ -->
+            <section class="section-wrap" id="foto-bareng">
+                <div class="section-eyebrow">👩‍❤️‍👨 Memories of Us</div>
+                <h2 class="s-title">Foto Bareng Kita 📸</h2>
+                <p class="s-sub">Momen-momen kebersamaan yang bikin hari-hariku berwarna!</p>
+
+                <div class="bareng-flow">
+                    <div class="bareng-card bc-pink" style="--r:-3deg">
+                        <div class="bc-photo">
+                            <img src="assets/images/couple3.jpg" alt="Foto wisuda berdua sunset"
+                                onerror="this.parentElement.style.background='linear-gradient(135deg,#ffc8dd,#e8d7f1)'; this.parentElement.innerHTML='<div class=bc-placeholder>💑<br><span>Foto Bareng 1</span></div>'">
+                        </div>
+                        <p class="bc-caption">" Ioo Sidang!"</p>
+                    </div>
+                    <div class="bareng-card bc-blue" style="--r:2deg">
+                        <div class="bc-photo">
+                            <img src="assets/images/bakery1.jpg" alt="Date di bakeri pegang roti"
+                                onerror="this.parentElement.style.background='linear-gradient(135deg,#a2d2ff,#cdb4db)'; this.parentElement.innerHTML='<div class=bc-placeholder>🥰<br><span>Foto Bareng 2</span></div>'">
+                        </div>
+                        <p class="bc-caption">"Bakery!"</p>
+                    </div>
+                    <div class="bareng-card bc-purple" style="--r:-2deg">
+                        <div class="bc-photo">
+                            <img src="assets/images/couple1.jpg" alt="Foto bareng pose heart"
+                                onerror="this.parentElement.style.background='linear-gradient(135deg,#cdb4db,#ffc8dd)'; this.parentElement.innerHTML='<div class=bc-placeholder>✨<br><span>Foto Bareng 3</span></div>'">
+                        </div>
+                        <p class="bc-caption">"OUR FIRST DATE!✨"</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Petal divider -->
+            <div class="petal-divider" aria-hidden="true">🌸 ✿ 🌷 ✿ 🌸 ✿ 🌷 ✿ 🌸</div>
+
+            <!-- ═══ GALLERY ═══ -->
+            <section class="section-wrap" id="gallery">
+                <div class="section-eyebrow">✨ Memory Stream</div>
+                <h2 class="s-title">Galeri Floryn & Journey 🌸</h2>
+                <p class="s-sub">Dari foto kamu waktu kecil sampai date-date seru kita!<br>
+                    <em>(Klik foto untuk flip & baca pesan tersembunyi 💕)</em>
+                </p>
+
+                <div class="gallery-scatter">
+                    <div class="flip-card" style="--r:-4deg; --glow:#ffc8dd" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="ambient" style="background:#ffc8dd"></div>
+                                <div class="fade-wrap">
+                                    <img src="assets/images/childhood1.jpg" alt="Floryn kecil manasik haji"
+                                        onerror="this.parentElement.innerHTML=makeImgPlaceholder('Little Floryn 🕌','#ffc8dd')">
+                                </div>
+                                <div class="fc-label">Little Floryn 🕌</div>
+                            </div>
+                            <div class="flip-back">
+                                <h3>Floryn Kecil 💕</h3>
+                                <p>Siapa sangka anak kecil imut manasik haji ini sekarang jadi orang paling cantik dan
+                                    paling aku sayangi 🥰</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card" style="--r:4deg; --glow:#a2d2ff" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="ambient" style="background:#a2d2ff"></div>
+                                <div class="fade-wrap">
+                                    <img src="assets/images/ikea_date.jpg" alt="IKEA Date"
+                                        onerror="this.parentElement.innerHTML=makeImgPlaceholder('IKEA Date 🛒','#a2d2ff')">
+                                </div>
+                                <div class="fc-label">IKEA Date 🛒</div>
+                            </div>
+                            <div class="flip-back">
+                                <h3>Chef Cantik Floryn 💕</h3>
+                                <p>Momen jalan-jalan seru di IKEA, liat-liat perabotan, foto di dapur idaman & ketawa
+                                    bareng kamu! 🥰</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card" style="--r:-2deg; --glow:#cdb4db" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="ambient" style="background:#cdb4db"></div>
+                                <div class="fade-wrap">
+                                    <img src="assets/images/wisuda1.jpg" alt="Floryn wisuda pegang buket biru"
+                                        onerror="this.parentElement.innerHTML=makeImgPlaceholder('Wisuda Floryn 🎓','#cdb4db')">
+                                </div>
+                                <div class="fc-label">Wisuda Floryn 🎓</div>
+                            </div>
+                            <div class="flip-back">
+                                <h3>Sarjana Cantik 💖</h3>
+                                <p>Kamu wisuda dengan senyum paling indah di depan gedung itu. Aku bangga banget sama
+                                    kamu, selamanya! 🌅</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card" style="--r:3deg; --glow:#bde0fe" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="ambient" style="background:#bde0fe"></div>
+                                <div class="fade-wrap">
+                                    <img src="assets/images/solo2.jpg" alt="Floryn malam di kereta"
+                                        onerror="this.parentElement.innerHTML=makeImgPlaceholder('Night Out 🌙','#bde0fe')">
+                                </div>
+                                <div class="fc-label">Malam Spesial 🌙</div>
+                            </div>
+                            <div class="flip-back">
+                                <h3>Bebas & Happy 🎉</h3>
+                                <p>Keluar malem, beli minuman, jalan-jalan — perempuan paling bebas dan paling bahagia
+                                    di dunia ini namanya Floryn! 🥤</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card" style="--r:-3deg; --glow:#e8d7f1" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <div class="ambient" style="background:#e8d7f1"></div>
+                                <div class="fade-wrap">
+                                    <img src="assets/images/family1.jpg" alt="Floryn sama ibu di food court"
+                                        onerror="this.parentElement.innerHTML=makeImgPlaceholder('Family 👩‍👧','#e8d7f1')">
+                                </div>
+                                <div class="fc-label">Sama Ibunda 👩‍👧</div>
+                            </div>
+                            <div class="flip-back">
+                                <h3>Keluarga Tercinta 💗</h3>
+                                <p>Foto sama ibunya Floryn — kamu punya keluarga yang luar biasa. Semoga selalu sehat
+                                    dan bahagia! 🌷</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wave divider -->
+            <div class="wave-divider wave-down" aria-hidden="true">
+                <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+                    <path d="M0,50 C480,0 960,80 1440,50 L1440,80 L0,80 Z" fill="rgba(205,180,219,0.15)" />
+                </svg>
+            </div>
+
+            <!-- ═══ SCRATCH CARD ═══ -->
+            <section class="section-wrap" id="scratch-section">
+                <div class="cloud-blob">
+                    <div class="section-eyebrow">✨ Hidden Secret</div>
+                    <h2 class="s-title">Garuk Kartu Rahasia! 🎨</h2>
+                    <p class="s-sub">Gosok lapisan emas ini untuk baca pesan tersembunyi khusus buat kamu…</p>
+                    <div class="scratch-wrap">
+                        <div class="scratch-reveal">
+                            <div class="scratch-heart">💖</div>
+                            <h3>"Floryn, You are My Favorite Story!"</h3>
+                            <p>Makasih ya udah lahir di dunia ini dan bikin hidup aku jadi seribu kali lebih indah.
+                                Happy Birthday Sayang! 💕✨</p>
+                        </div>
+                        <canvas id="scratchCanvas" width="420" height="230"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Petal divider -->
+            <div class="petal-divider" aria-hidden="true">💕 · 💕 · 💕 · 💕 · 💕</div>
+
+            <!-- ═══ BIRTHDAY CAKE ═══ -->
+            <section class="section-wrap" id="cake-section">
+                <div class="cloud-blob">
+                    <div class="section-eyebrow">🎂 Make a Wish!</div>
+                    <h2 class="s-title">Waktunya Tiup Lilin! 🎉</h2>
+                    <p class="s-sub">Panjatkan doamu dalam hati, lalu tiup lilinnya!</p>
+                    <div class="cake-wrap">
+                        <div class="cake">
+                            <div class="plate"></div>
+                            <div class="layer l-bot"></div>
+                            <div class="layer l-mid"></div>
+                            <div class="layer l-top"></div>
+                            <div class="icing"></div>
+                            <div class="drips">
+                                <div class="drip"></div>
+                                <div class="drip"></div>
+                                <div class="drip"></div>
+                            </div>
+                            <div class="candles">
+                                <div class="candle">
+                                    <div class="flame" id="flame1"></div>
+                                </div>
+                                <div class="candle">
+                                    <div class="flame" id="flame2"></div>
+                                </div>
+                                <div class="candle">
+                                    <div class="flame" id="flame3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="blowCandleBtn" class="btn-primary pulse">💨 Tiup Lilin!</button>
+                    <p id="wishStatus" class="wish-txt">Lilin menyala… klik tombol di atas!</p>
+                </div>
+            </section>
+
+            <!-- Wave divider -->
+            <div class="wave-divider wave-up" aria-hidden="true">
+                <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+                    <path d="M0,40 C360,80 1080,0 1440,40 L1440,0 L0,0 Z" fill="rgba(162,210,255,0.12)" />
+                </svg>
+            </div>
+
+            <!-- ═══ QUIZ ═══ -->
+            <section class="section-wrap" id="quiz-section">
+                <div class="cloud-blob">
+                    <div class="section-eyebrow">🎮 Love Trivia</div>
+                    <h2 class="s-title">Seberapa Ingat Kamu? 💕</h2>
+                    <p class="s-sub">Jawab 4 pertanyaan ini untuk dapetin sertifikat Soulmate Approved!</p>
+                    <div id="quizContainer" class="quiz-inner">
+                        <div class="quiz-bar">
+                            <div class="quiz-prog" id="quizProgressBar" style="width:25%"></div>
+                        </div>
+                        <div class="q-num" id="questionNumber">Pertanyaan 1 dari 4</div>
+                        <h3 class="q-text" id="questionText"></h3>
+                        <div class="q-opts" id="optionsGrid"></div>
+                    </div>
+                    <div id="quizResult" class="quiz-result hidden">
+                        <div class="trophy">🏆</div>
+                        <h3 class="r-title">100% Soulmate Approved! 💕</h3>
+                        <p class="r-sub">Selamat Floryn! Kamu terbukti seratus persen ngerti kisah cinta kita! 🥰</p>
+                        <div class="cert-badge">📜 Official Soulmate Certificate — Floryn</div>
+                        <button onclick="resetQuiz()" class="btn-secondary">Main Lagi 🔄</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Petal divider -->
+            <div class="petal-divider" aria-hidden="true">🌸 ✿ 🌷 ✿ 🌸 ✿ 🌷 ✿ 🌸</div>
+
+            <!-- ═══ LOVE LETTER ═══ -->
+            <section class="section-wrap" id="letter-section">
+                <div class="cloud-blob" style="text-align:center">
+                    <div class="section-eyebrow">💌 From My Heart</div>
+                    <h2 class="s-title">Surat Cinta Khusus Buat Floryn 🌸</h2>
+                    <p class="s-sub">Klik amplop untuk membuka pesan manisnya…</p>
+                    <div class="envelope-wrap">
+                        <div class="envelope" id="envelope">
+                            <div class="env-flap"></div>
+                            <div class="env-pocket"></div>
+                            <div class="env-heart">💖</div>
+                            <div class="env-letter" id="letterContent">
+                                <h3 class="let-title">Dear Floryn Sayang, 🌸</h3>
+                                <div id="typewriterText" class="typewriter"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="openEnvelopeBtn" class="btn-primary" style="margin-top:28px">✉️ Buka Surat
+                        Cinta</button>
+                </div>
+            </section>
+
+            <!-- Wave divider -->
+            <div class="wave-divider wave-down" aria-hidden="true">
+                <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+                    <path d="M0,30 C480,80 960,0 1440,30 L1440,80 L0,80 Z" fill="rgba(255,200,221,0.12)" />
+                </svg>
+            </div>
+
+            <!-- ═══ WISH JAR ═══ -->
+            <section class="section-wrap" id="jar-section">
+                <div class="cloud-blob" style="text-align:center">
+                    <div class="jar-emoji">🏺✨</div>
+                    <h2 class="s-title">Jar of Love Reasons</h2>
+                    <p class="s-sub">Klik untuk ngambil 1 alasan kenapa aku sayang banget sama kamu!</p>
+                    <div class="wish-note" id="wishNoteDisplay">"Klik tombol di bawah untuk membuka pesan manis! 💕"
+                    </div>
+                    <button id="drawWishBtn" class="btn-secondary">✨ Ambil Pesan Cinta 📜</button>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="footer">
+                <p>Made with ❤️ specially for <b>Floryn</b> — Happy Birthday!</p>
+                <p class="footer-cursive">Forever & Always · 3 Juni 2026 💖</p>
+            </footer>
+
+        </div><!-- end locked -->
+
+    </div><!-- end app -->
+
+    <script>
+        // Inline helper so it's available for onerror attributes
+        function makeImgPlaceholder(label, color) {
+            return `<div style="width:100%;height:100%;background:linear-gradient(135deg,${color},${color}88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:16px"><span style="font-size:2.5rem">🌸</span><span style="font-family:Caveat,cursive;font-size:1.2rem;color:#5a3060;font-weight:700">${label}</span></div>`;
+        }
+        function svgPlaceholder(label, bg, text) {
+            return `<div style="width:100%;height:100%;background:${bg};display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;gap:4px"><span style='font-size:1.8rem'>🌸</span><span style='font-family:Caveat,cursive;font-size:1rem;color:${text};font-weight:700'>${label}</span></div>`;
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
