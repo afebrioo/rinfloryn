@@ -239,74 +239,60 @@ function initAudioAutoplay() {
     const statusTxt = document.getElementById('musicStatusText');
     const disc = document.getElementById('vinylRecord');
 
-    let playing = false;
-    let synthCtx = null;
-    let synthTimer = null;
-
-    // Gentle synth melody as fallback when MP3 not yet added
-    function startSynth() {
-        if (synthCtx) return;
-        try {
-            const AC = window.AudioContext || window.webkitAudioContext;
-            synthCtx = new AC();
-            const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 349.23, 293.66, 261.63];
-            let i = 0;
-            synthTimer = setInterval(() => {
-                if (!playing) return;
-                const osc = synthCtx.createOscillator();
-                const gain = synthCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(notes[i % notes.length], synthCtx.currentTime);
-                gain.gain.setValueAtTime(0.06, synthCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, synthCtx.currentTime + 0.9);
-                osc.connect(gain); gain.connect(synthCtx.destination);
-                osc.start(); osc.stop(synthCtx.currentTime + 0.9);
-                i++;
-            }, 520);
-        } catch (e) { }
-    }
+    if (!audio) return;
+    audio.volume = 1.0;
 
     function play() {
-        if (playing) return;
-        audio.play().then(() => {
-            playing = true;
-            icon.textContent = '⏸';
-            statusTxt.textContent = '🎵 Cantik — Kahitna';
-            disc.classList.add('spinning');
-        }).catch((err) => {
-            // Blocked by browser autoplay policy before user gesture
-            // Keep playing = false so next tap/click starts music!
-            playing = false;
-            icon.textContent = '▶';
-            statusTxt.textContent = '🎵 Tap untuk putar lagu 💕';
-            disc.classList.remove('spinning');
-        });
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                if (icon) icon.textContent = '⏸';
+                if (statusTxt) statusTxt.textContent = '🎵 Cantik — Kahitna';
+                if (disc) disc.classList.add('spinning');
+            }).catch(() => {
+                // Autoplay blocked by browser policy until first user interaction
+                if (icon) icon.textContent = '▶';
+                if (statusTxt) statusTxt.textContent = '🎵 Tap untuk putar lagu 💕';
+                if (disc) disc.classList.remove('spinning');
+            });
+        }
     }
 
     function pause() {
         audio.pause();
-        playing = false;
-        icon.textContent = '▶';
-        statusTxt.textContent = '⏸ Paused';
-        disc.classList.remove('spinning');
+        if (icon) icon.textContent = '▶';
+        if (statusTxt) statusTxt.textContent = '⏸ Paused';
+        if (disc) disc.classList.remove('spinning');
     }
 
-    btn.addEventListener('click', () => playing ? pause() : play());
+    if (btn) {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) {
+                play();
+            } else {
+                pause();
+            }
+        });
+    }
 
-    // 🎵 Play on first tap or click anywhere
-    const triggerPlay = () => {
-        play();
-        ['click', 'touchstart', 'touchend', 'keydown', 'scroll'].forEach(ev => {
-            window.removeEventListener(ev, triggerPlay);
-            document.removeEventListener(ev, triggerPlay);
+    // 🎵 Play real MP3 on first user tap/click anywhere
+    const startAudioOnGesture = () => {
+        if (audio.paused) {
+            play();
+        }
+        ['click', 'touchstart', 'touchend', 'keydown', 'pointerdown'].forEach(ev => {
+            window.removeEventListener(ev, startAudioOnGesture, true);
+            document.removeEventListener(ev, startAudioOnGesture, true);
         });
     };
-    ['click', 'touchstart', 'touchend', 'keydown', 'scroll'].forEach(ev => {
-        window.addEventListener(ev, triggerPlay, { once: true });
-        document.addEventListener(ev, triggerPlay, { once: true });
+
+    ['click', 'touchstart', 'touchend', 'keydown', 'pointerdown'].forEach(ev => {
+        window.addEventListener(ev, startAudioOnGesture, { once: true, capture: true });
+        document.addEventListener(ev, startAudioOnGesture, { once: true, capture: true });
     });
-    
-    // Attempt immediate playback
+
+    // Attempt direct play on load
     play();
 }
 
