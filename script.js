@@ -273,18 +273,18 @@ function initAudioAutoplay() {
             icon.textContent = '⏸';
             statusTxt.textContent = '🎵 Cantik — Kahitna';
             disc.classList.add('spinning');
-        }).catch(() => {
-            playing = true;
-            icon.textContent = '⏸';
-            statusTxt.textContent = '🎵 Playing for you…';
-            disc.classList.add('spinning');
-            startSynth();
+        }).catch((err) => {
+            // Blocked by browser autoplay policy before user gesture
+            // Keep playing = false so next tap/click starts music!
+            playing = false;
+            icon.textContent = '▶';
+            statusTxt.textContent = '🎵 Tap untuk putar lagu 💕';
+            disc.classList.remove('spinning');
         });
     }
 
     function pause() {
         audio.pause();
-        if (synthTimer) clearInterval(synthTimer); synthTimer = null; synthCtx = null;
         playing = false;
         icon.textContent = '▶';
         statusTxt.textContent = '⏸ Paused';
@@ -293,12 +293,18 @@ function initAudioAutoplay() {
 
     btn.addEventListener('click', () => playing ? pause() : play());
 
-    // 🎵 Play right from the cover/start
+    // 🎵 Play on first tap or click anywhere
     const triggerPlay = () => {
         play();
-        ['click', 'touchstart', 'keydown', 'scroll'].forEach(ev => window.removeEventListener(ev, triggerPlay));
+        ['click', 'touchstart', 'touchend', 'keydown', 'scroll'].forEach(ev => {
+            window.removeEventListener(ev, triggerPlay);
+            document.removeEventListener(ev, triggerPlay);
+        });
     };
-    ['click', 'touchstart', 'keydown', 'scroll'].forEach(ev => window.addEventListener(ev, triggerPlay, { once: true }));
+    ['click', 'touchstart', 'touchend', 'keydown', 'scroll'].forEach(ev => {
+        window.addEventListener(ev, triggerPlay, { once: true });
+        document.addEventListener(ev, triggerPlay, { once: true });
+    });
     
     // Attempt immediate playback
     play();
